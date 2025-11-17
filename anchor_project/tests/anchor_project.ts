@@ -27,4 +27,27 @@ describe("anchor_project", () => {
     // The highest bid should be 100 after initialization.
     assert.ok(account.highestBid.toString() === '100');
   });
+
+  it('Places a bid', async () => {
+    const bidder = anchor.web3.Keypair.generate();
+    await provider.connection.requestAirdrop(bidder.publicKey, 1000000000);
+    const bidderProvider = new anchor.AnchorProvider(provider.connection, new anchor.Wallet(bidder), {});
+    anchor.setProvider(bidderProvider);
+
+    console.log("before rpc.placeBid()");
+    console.log("before rpc.placeBid() 2");
+    await program.rpc.placeBid(new anchor.BN(150), {
+      accounts: {
+        auction: auctionAccount.publicKey,
+        bidder: bidder.publicKey,
+      },
+    });
+    console.log("after rpc.placeBid()");
+
+    const account = await program.account.auction.fetch(auctionAccount.publicKey);
+    console.log('Highest bid: ', account.highestBid.toString());
+    // The highest bid should be 150 after placing the bid.
+    assert.ok(account.highestBid.toString() === '150');
+    assert.ok(account.highestBidder.equals(bidder.publicKey));
+  });
 });

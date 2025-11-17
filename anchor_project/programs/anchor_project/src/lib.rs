@@ -2,6 +2,7 @@ use anchor_lang::prelude::*;
 
 mod state;
 mod instructions;
+mod errors;
 
 use instructions::*;
 
@@ -13,6 +14,10 @@ pub mod anchor_project {
 
     pub fn initialize(ctx: Context<InitializeAuction>, starting_bid: u64) -> Result<()> {
         _init_auction(ctx, starting_bid)
+    }
+
+    pub fn place_bid(ctx: Context<PlaceBid>, bid_amount: u64) -> Result<()> {
+        _place_bid(ctx, bid_amount)
     }
 }
 
