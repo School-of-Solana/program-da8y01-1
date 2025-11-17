@@ -6,7 +6,7 @@ mod errors;
 
 use instructions::*;
 
-declare_id!("6asFXwC8aFqnwtyVARHkqg66K5MvigPUPPtS6hHXfT6n");
+declare_id!("CUGjLcbsRdVcathaUNNSPfzXpGder7pRkMgADzsHji29");
 
 #[program]
 pub mod anchor_project {
